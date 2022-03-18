@@ -21,6 +21,7 @@ function ContainerTeam() {
             alert("name should be in character")
             //    alert('Submitted Sucessfully')
         }
+        
         if(!email.match(emailPattern))
         {
                 alert('Email Character missing')
