@@ -1,33 +1,112 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { Teamheader, Teampara } from './Container.constants';
 function ContainerTeam() {
     const [name,setname]= useState('')
     const [email,setemail]= useState('')
     const [msg,setmsg] = useState('')
-    console.log('User-Entered-Details:',name,email,msg)
+    const[userdata,setuserdata]= useState([])
+    // console.log('User-Entered-Details:',name,email,msg)
 
-    function AlertUser(){
+    // const UserEnter =[];
+
+    const UserData={
+        name:name,
+        email:email,
+        msg:msg
+    }
+
+    // console.log(UserData)
+   
+    
+    // console.log(UserEnter)
+
+    async function AlertUser(event){
 
         const alphaExp = /^[a-zA-Z]+$/;
         const emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-
+        
       
 
-
        
-        if(!name.match(alphaExp))
+        if(!name.match(alphaExp) )
         {       
-            alert("name should be in character")
+            alert("name should be in character or less than 5")
             //    alert('Submitted Sucessfully')
         }
-        
+
         if(!email.match(emailPattern))
         {
                 alert('Email Character missing')
         }
+       
+        else{
+            event.preventDefault();
+            const list = [...userdata]
+            console.log('Payload',list)
+            
+            setuserdata(list,UserData)
+            // setuserdata.(UserData)
+            console.log('Data',userdata)
+          
+
+        }
+       
     }
-    
+
+   
+
+    useEffect(() => {
+        if (name.length < 5) {
+            
+          return(
+            document.getElementById("findme").innerHTML="Enter Character more than 5"
+           
+            )
+           
+            
+        }
+
+        else{
+            return(
+                document.getElementById("findme").innerHTML=""
+               
+                
+                )
+
+        }
+
+      }, [name]);
+
+      useEffect(() => {
+        if (name.length < 5) {
+            
+          return(
+            document.getElementById("errorname").style.border="1px solid red",
+            document.getElementById("errorname2").style.border="1px solid red",
+            document.getElementById("errornamemsg").style.border="1px solid red"
+           
+            )
+           
+            
+        }
+
+        else{
+            return(
+                document.getElementById("errorname").style.border="1px solid black",
+                document.getElementById("errorname2").style.border="1px solid black",
+                document.getElementById("errornamemsg").style.border="1px solid black"
+               
+                
+                )
+
+        }
+
+      }, [name]);
+ 
+  
+  
+
     
     return (
         <>
@@ -99,7 +178,7 @@ function ContainerTeam() {
 
                 </div>
                 
-                <div className="user-form">
+                <div className="user-form" >
                     <form>
                     <h2>Contact</h2>
                     <label>Enter your name:
@@ -108,40 +187,72 @@ function ContainerTeam() {
                             value={name}
                             onChange={(e)=>setname(e.target.value)}
                             required
+                            span class="error" id="errorname"
           
                     />
                     </label>
+                    <label id="findme"></label>
+                    <br/>
                     <label>Enter your Email:
                      <input
                             type="email" 
                             value={email}
                             onChange={(e)=>setemail(e.target.value)}
                             required
-          
+                            id="errorname2"
+                          
                     />
                     </label>
                     <label>Enter Message:
                      <input
-                            type="text"
+                            type="textarea"
                             value={msg}
                             onChange={(e)=>setmsg(e.target.value)} 
+                            id="errornamemsg"
                             
           
                     />
                     <button id="btn4" onClick={AlertUser}>Send</button>
+                   
                     </label>
                     
                     </form>
                     
                 </div>
+                <table>
+                    <tbody>
+                    <tr>
+                         <th>UserName</th>
+                         <th>UserEmail</th>
+                         <th>User-Msg</th>
+                    </tr>
+                           
+                            
+                               
+                            {/* <tr>
+                                <td>{name}</td>
+                                <td>{email}</td>
+                                <td>{msg}</td>
+                            </tr>
+                                 */}
+                           
+                            
+
+
+                            
+                           
+                    </tbody>
+                   </table> 
+
+                 
             </div>
 
-
-
+          ]
 
 
         </>
     )
+
 }
 
 export default ContainerTeam
